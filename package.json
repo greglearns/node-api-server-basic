@@ -1,0 +1,35 @@
+{
+  "name": "api-server-basic",
+  "version": "0.0.0",
+  "description": "Basic Node.js API server using Restify",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/greglearns/node-api-server-basic.git"
+  },
+  "keywords": [
+    "api",
+    "server",
+    "restify"
+  ],
+  "author": "greglearns",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greglearns/node-api-server-basic/issues"
+  },
+  "devDependencies": {
+    "eyespect": "~0.1.10",
+    "chai": "~1.7.2",
+    "mocha": "~1.12.1"
+  },
+  "dependencies": {
+    "q": "~0.9.7",
+    "restify": "~2.6.0"
+  },
+  "optionalDependencies": {
+    "logger-json-stderr": "~1.1"
+  }
+}
