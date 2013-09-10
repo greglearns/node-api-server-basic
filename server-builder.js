@@ -15,7 +15,7 @@ module.exports = function(originalOpts) {
   server.on('listening', logPortOnStartup)
   server.on('error', logErrorOnStartup)
   server.on('after', opts.logAfterResponseSent)
-  if (!opts.logBeforeRouting) { server.pre( logRequestBeforeRouting ) }
+  if (opts.logBeforeRouting) { server.pre( logRequestBeforeRouting ) }
 
   return {
     server: server,
