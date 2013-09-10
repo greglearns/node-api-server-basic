@@ -4,16 +4,16 @@
 
 [![NPM](https://nodei.co/npm/api-server-basic.png?downloads=true)](https://nodei.co/npm/api-server-basic/)
 
-Basic Node.js API server using Restify that logs in JSON-format to stderr.
+Basic Node.js API server that uses Restify and logs in JSON-format to stderr.
 
-# Install
+## Install
 
-```javascript
+```bash
 npm install -S api-server-basic
-// install and add to your package.json as a dependency
+# install and add to your package.json as a dependency
 ```
 
-# Usage
+## Usage
 
 ```javascript
 var serverBuilder = require('api-server-basic')
@@ -31,20 +31,38 @@ var optionalParams = {
   log: aBunyanCompatableLogger
 }
 
-var server = serverBuilder(requiredParams)
-// server is listening at this point
-
-server.log({something: 'that you want to log'}, "this is a message to show that you can log stuff")
-// server log will appear on stderr in JSON format
+var serverData = serverBuilder(requiredParams)
 ```
 
-# Run tests
+## Starting the server
+
+`serverData.start()`
+* convenience function to start
+* Returns a promise that is fulfilled with an object `{ port: <the actual port listened on> }`
+
+`serverData.start(callback)`
+* convenience function to start the server listening.
+* Calls the callback once the server is listening.
+
+`serverData.server`
+* the server itself
+
+`serverData.server.address().port`
+* the port the server is listening on, which is only set after the server is listening.
+
+`serverData.server.log({something: 'that you want to log'}, "this is a message to show that you can log stuff")`
+* server log will appear on stderr in JSON format
+
+```
+
+## Run tests
 
 ```bash
+npm install
 make test
 ```
 
-# License
+## License
 
 MIT
 
