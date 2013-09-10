@@ -1,6 +1,6 @@
 {
   "name": "api-server-basic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Basic Node.js API server using Restify",
   "main": "index.js",
   "scripts": {
