@@ -27,9 +27,8 @@
   },
   "dependencies": {
     "q": "~0.9.7",
-    "restify": "~2.6.0"
-  },
-  "optionalDependencies": {
-    "logger-json-stderr": "~1.1"
+    "restify": "~2.6.0",
+    "logger-json-stderr": "~1.1",
+    "error-adapter": "0.0.1"
   }
 }

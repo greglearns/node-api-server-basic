@@ -4,27 +4,23 @@ var subject = require('../../')
 
 describe('serverBuilder', function() {
 
+  var slowThresholdInMilliseconds = 200
+  this.slow(slowThresholdInMilliseconds) // we are starting and stopping servers before each test
+
   var opts
-  var logEntries
-  var fakeLog = {
-    note: 'I am fake',
-    info: function(obj, msg) {
-      logEntries.push(msg)
-    }
-  }
-  function goodOpts() {
-    logEntries = []
-    return {
-      port: 0,
-      name: 'test name',
-      routes: function() {},
-      log: fakeLog
-    }
-  }
 
   beforeEach(function() {
     opts = goodOpts()
   })
+
+  function goodOpts() {
+    return {
+      port: 0,
+      name: 'test name',
+      routes: function() {},
+      log: fakeLog()
+    }
+  }
 
   describe('initialization', function() {
 
@@ -36,12 +32,6 @@ describe('serverBuilder', function() {
         'routes'
       ]
 
-      it('we test all of the required fields', function() {
-        expect(function() { subject({}) })
-        .to.throw(Error)
-        .and.throw(new RegExp('required.*(' + requiredFields.join('|') + ')'))
-      })
-
       requiredFields.forEach(function(field) {
         it(field, function() {
           delete opts[field]
@@ -52,38 +42,71 @@ describe('serverBuilder', function() {
         })
       })
 
+      it('the server does not have a required field that we are not testing for', function() {
+        try {
+          subject({})
+          throw new Error('this line should not be hit.')
+        } catch (err) {
+          var unknownRequiredField = err.missing.filter(function(element) { return requiredFields.indexOf(element) < 0 })
+          expect(unknownRequiredField).to.be.empty
+        }
+      })
+
     })
 
-    describe('sets', function() {
-      var server
-      before(function() {
-        server = subject(goodOpts()).server
+    describe('input / output', function() {
+      var server, cachedGoodOpts, serverData
+
+      before(function() { // optimized: starts the server only once
+        cachedGoodOpts = goodOpts()
+        serverData = subject(cachedGoodOpts)
+        server = serverData.server
       })
 
-      it('server.name', function() {
-        expect(server.name).to.equal(opts.name)
+      describe('returns', function() {
+        it('serverData.server', function() {
+          expect(serverData).to.have.ownProperty('server')
+        })
+
+        it('serverData.start function', function() {
+          expect(serverData).to.have.ownProperty('start')
+          expect(serverData.start).to.be.a('function')
+        })
       })
 
-      it('server.log', function() {
-        expect(server.log).to.equal(fakeLog)
-        expect(server.log.note).to.equal('I am fake')
-      })
+      describe('sets', function() {
 
+        it('serverData.server.name', function() {
+          expect(server.name).to.equal(cachedGoodOpts.name)
+        })
+
+        it('serverData.server.log', function() {
+          expect(server.log).to.equal(cachedGoodOpts.log)
+        })
+      })
     })
 
     describe('logging', function() {
 
       it('logs on startup', function(done) {
         opts.postStart = function() {
-          expect(logEntries).to.eql([ 'success: server start' ])
+          expect(opts.log.entries).to.eql([ 'success: server start' ])
           done()
         }
         subject(opts).start()
       })
-
     })
 
   })
-
 })
+
+function fakeLog() {
+  var logEntries = []
+  return {
+    info: function(obj, msg) {
+      logEntries.push(msg)
+    },
+    entries: logEntries
+  }
+}
 

@@ -28,7 +28,8 @@ var requiredParams = {
 }
 
 var optionalParams = {
-  log: aBunyanCompatableLogger
+  log: aBunyanCompatableLogger,
+  logBeforeRouting: false // Default false. Set to true to log all requests before routing occurs.
 }
 
 var serverData = serverBuilder(requiredParams)
