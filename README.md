@@ -1,10 +1,10 @@
 # node-api-server-basic
 
+Basic Node.js API server that uses Restify and logs in JSON-format to stderr.
+
 [![Build Status](https://travis-ci.org/greglearns/node-api-server-basic.png?branch=master)](https://travis-ci.org/greglearns/node-api-server-basic) [![Dependency Status](https://david-dm.org/greglearns/node-api-server-basic.png)](https://david-dm.org/greglearns/node-api-server-basic)
 
 [![NPM](https://nodei.co/npm/api-server-basic.png?downloads=true)](https://nodei.co/npm/api-server-basic/)
-
-Basic Node.js API server that uses Restify and logs in JSON-format to stderr.
 
 ## Install
 
@@ -53,8 +53,6 @@ var serverData = serverBuilder(requiredParams)
 
 `serverData.server.log({something: 'that you want to log'}, "this is a message to show that you can log stuff")`
 * server log will appear on stderr in JSON format
-
-```
 
 ## Run tests
 
