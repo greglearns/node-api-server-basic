@@ -15,7 +15,6 @@ module.exports = function(originalOpts) {
   if (!originalOpts.log && !loggerBuilder) { throw new Error('required option missing: log') }
 
   var opts = mergeWithDefaults(originalOpts)
-  var port = opts.port
 
   var server = opts.server = restify.createServer(opts)
   opts.middleware(server)
@@ -32,7 +31,6 @@ module.exports = function(originalOpts) {
 
   return {
     server: server,
-    port: port,
     start: startServer
   }
 
@@ -49,7 +47,7 @@ module.exports = function(originalOpts) {
       deferred.reject(err)
     })
 
-    server.listen(port)
+    server.listen(opts.port)
     return deferred.promise
   }
 
